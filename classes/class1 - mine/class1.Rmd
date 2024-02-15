@@ -32,7 +32,7 @@ pacman::p_load(tidyverse,
 ### Code from Chapter 1 (not exercises, just in-chapter)
 ```{r}
 # Load data
-hibbs <- read.table("data/ElectionsEconomy/data/hibbs.dat", header = TRUE)
+hibbs <- read.table("../data/ElectionsEconomy/data/hibbs.dat", header = TRUE)
 
 # Make scatterplot
 plot(hibbs$growth, hibbs$vote, xlab="Average recent growth in personal income",
@@ -88,13 +88,31 @@ set.seed(1998) # setting a seed (in the best year ever??) - this way, even thoug
 # rnorm() works like: my_simulated_data <- rnorm(n, mean, sd) - now you go!
 
 # your code here
+data_sim <-  rnorm(200, 42, 7)
+print(data_sim)
 ```
 
 ## Ex. 0.c) Talk with your group and note in 1-2 sentences: What do we know of the data drawn from the rnorm()? 
 
 ## Ex. 0.d) Data are worth 10000% more if visualised, so let's visualise. Using ggplot, make a histogram visualising the data you simulated.
 
+```{r}
+df_sim_data <-data.frame(data_sim)
+ggplot(df_sim_data, aes(data_sim)) + geom_histogram()
+
+```
+
+
 ## Ex. 0.e) Calculate the empirical mean and empirical sd (just fancy words for "calculate the mean and sd of the simulated data") - are they different from the ones you've set? and why might that be?
+
+```{r}
+data_sim_mean <- mean(df_sim_data$data_sim)
+data_sim_sd <- sd(df_sim_data$data_sim)
+data_sim_mean
+data_sim_sd
+
+```
+
 
 ## Exercises from ROS
 ### Ex. 1.2
@@ -103,6 +121,13 @@ Sketching a regression model and data: Figure 1.1b shows data corresponding to t
 
 #### Ex. 1.2.a) Sketch hypothetical data with the same range of x but corresponding to the line y = 30 + 10x with residual standard deviation 3.9.
 * If you're not sure how to approach this exercise, try and go by the piecemeal hint-intruction in the bottom of this doc :)
+
+```{r}
+intercept_ex1 <- x
+sd_ex1 <- x
+sd_ex1 <- x
+
+```
 
 #### Ex. 1.2.b) Sketch hypothetical data with the same range of x but corresponding to the line y = 30 + 10x with residual standard deviation 10.
 
