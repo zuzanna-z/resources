@@ -186,37 +186,82 @@ We need to record:
 Let's try and write a function:
 ```{r}
 # Function to simulate basketball player
-prob = 0.6
-shots_taken <-  rbinom(n =1, )
-basketball <- function(){ # starting the function for you
+
+basketball <- function(){
+  shots_taken <- replicate(2, rbinom(1, 1, 0.6))
   
-  # your code here
-  
+  while((shots_taken[length(shots_taken)]) + (shots_taken[length(shots_taken) - 1]) != 0){
+    shots_taken <- c(shots_taken, rbinom(1, 1, 0.6))
+  }
+  return(shots_taken)
 }
+
 # Example usage of the function, when done
-# basket_sim <- basketball(printing = TRUE)
+shots_sim <- basketball()
+
 
 ```
 
 #### Ex. 5.1.b) Put the R function in a loop to simulate the process 1000 times. Use the simulation to estimate the mean and standard deviation of the total number of shots that the player will take, and plot a histogram representing the distribution of this random variable. 
 ```{r}
 # your code here
+shots_df <- c()
+all_shots_taken <- c()
+
+i = 0
+for (i in 1:1000){
+  shots_attempt <- basketball()
+  i = i + 1
+  all_shots_taken <- c(all_shots_taken, length(shots_attempt))
+}
+
+shots_df <- data.frame(shots_taken_nr = all_shots_taken)
+mean(shots_df$shots_taken_nr)
+sd(shots_df$shots_taken_nr)
+
+shots_df %>%
+  ggplot(aes(x = shots_taken_nr))+
+  geom_histogram()
+
+
+
+attp <- replicate(1000, basketball())
+mean(sapply(attp, length))
+sd(sapply(attp, length))
 ```
 
 #### Ex. 5.1.c) Using your simulations, make a scatterplot of the number of shots the player will take and the proportion of shots that are successes.
 ```{r}
 # your code here
+df_5c <- cbind(sapply(attp, mean), sapply(attp, length))
+plot(df_5c[,2], df_5c[,1])
 ```
 
 ### Ex. 5.3: Binomial distribution: A player takes 10 basketball shots, with a 40% probability of making each shot. Assume the outcomes of the shots are independent.
 #### Ex. 5.3.a) Write a line of R code to compute the probability that the player makes exactly 3 of the 10 shots.
 ```{r}
 # your code here
+dbinom(3, 10, 0.4)
+
+
+
 ```
 
 #### Ex. 5.3.b) Write an R function to simulate the 10 shots. Loop this function 10 000 times and check that your simulated probability of making exactly 3 shots is close to the exact probability computed in (a).
 ```{r}
 # your code here
+
+sim_c = 0
+basketball_sim_02 <- function(){
+  shot_sim_02 <- rbinom(1, 10, 0.4)
+return(as.numeric(shot_sim_02))
+}
+
+full_sim_ex5 <-  replicate(10000, if(basketball_sim_02() == 3){
+  print(basketball_sim_02())
+})
+# print(sim_c)
+
 ```
 
 ## Ex. 5.4: Demonstration of the Central Limit Theorem: Let x = x1 + · · · + x20, the sum of 20 independent uniform(0, 1) random variables. In R, create 1000 simulations of x and plot their histogram. What is the normal approximation to this distribution provided by the Central Limit Theorem? Overlay a graph of the normal density on top of the histogram. Comment on any differences between the histogram and the curve.
